@@ -1,0 +1,22 @@
+﻿# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.pdb
+
+# VS Code / VS
+.vscode/
+.vs/
+
+# Logs
+*.log
+
+# Node (Angular future)
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
