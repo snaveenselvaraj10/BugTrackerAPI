@@ -45,5 +45,12 @@ namespace BugTrackerAPI.Controllers
             var count = _service.GetOpenBugCount(userId);
             return Ok(count);
         }
+
+        [HttpDelete("{bugId}")]
+        public IActionResult Delete(int bugId)
+        {
+            _service.DeleteBug(bugId);
+            return Ok("Bug Deleted Successfully");
+        }
     }
 }

@@ -67,5 +67,16 @@ namespace BugTrackerAPI.Services
                 );
             }
         }
+
+        public void DeleteBug(int bugId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(
+                    "DELETE FROM Bugs WHERE BugId = @BugId",
+                    new { BugId = bugId }
+                );
+            }
+        }
     }
 }
