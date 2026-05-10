@@ -22,7 +22,11 @@ public class AuthController : ControllerBase
         if (string.IsNullOrEmpty(dto.Email))
             return BadRequest("Email required");
 
-        var token = _service.GenerateToken(dto.Email);
+        var userId = _service.GetUserIdByEmail(dto.Email);
+        if (userId == null)
+            return Unauthorized("User not found");
+
+        var token = _service.GenerateToken(dto.Email, userId.Value);
 
         return Ok(new { token });
     }

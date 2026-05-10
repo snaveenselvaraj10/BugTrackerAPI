@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<BugService>();
+builder.Services.AddScoped<CommentService>();
 
 builder.Services.AddCors(options =>
 {

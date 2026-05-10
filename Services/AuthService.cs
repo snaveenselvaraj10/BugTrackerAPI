@@ -2,6 +2,8 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Dapper;
+using Microsoft.Data.SqlClient;
 
 
 namespace BugTrackerAPI.Services;
@@ -14,11 +16,25 @@ public class AuthService
         _config = config;
     }
 
-    public string GenerateToken(string email)
+    public int? GetUserIdByEmail(string email)
+    {
+        var connStr = _config.GetConnectionString("DefaultConnection");
+        if (string.IsNullOrEmpty(connStr)) return null;
+
+        using var connection = new SqlConnection(connStr);
+        return connection.QuerySingleOrDefault<int?>(
+            "SELECT UserId FROM Users WHERE Email = @Email",
+            new { Email = email }
+        );
+    }
+
+    public string GenerateToken(string email, int userId)
     {
         var claims = new[]
         {
-            new Claim(ClaimTypes.Name, email)
+            new Claim(ClaimTypes.Name, email),
+            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+            new Claim("UserId", userId.ToString())
         };
 
         var key = new SymmetricSecurityKey(
